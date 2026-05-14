@@ -92,7 +92,7 @@ earnings_sentiment/
 
 Each transcript is split into sentences, scored by FinBERT in batches of 8, and aggregated:
 
-$$\text{sentiment\_score} = \overline{P(\text{positive})} - \overline{P(\text{negative})}$$
+$$\text{Sentiment Score} = \overline{P(\text{positive})} - \overline{P(\text{negative})}$$
 
 **5-transcript pilot (AAPL, MSFT, NVDA, GOOGL, META — 2024):**
 
