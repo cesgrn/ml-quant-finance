@@ -1,0 +1,43 @@
+
+=== cost 0.00% ===
+  iter   500  loss=0.5202  (106s)
+  iter  1000  loss=0.4661  (216s)
+
+=== cost 0.10% ===
+  iter   500  loss=0.7450  (112s)
+  iter  1000  loss=0.7033  (225s)
+
+=== cost 0.25% ===
+  iter   500  loss=1.0745  (112s)
+  iter  1000  loss=1.0272  (226s)
+
+=== cost 0.50% ===
+  iter   500  loss=1.5768  (112s)
+  iter  1000  loss=1.5204  (226s)
+
+=== cost 1.00% ===
+  iter   500  loss=2.4711  (109s)
+  iter  1000  loss=2.4127  (223s)
+
+=== cost 2.00% ===
+  iter   500  loss=4.0956  (112s)
+  iter  1000  loss=4.0293  (226s)
+
+Indifference price by cost:
+strategy  BS delta  Leland delta  No-transaction band  Whalley-Wilmott
+cost                                                                  
+0.0000      10.989        10.989               10.967           10.989
+0.0010      11.305        11.264               11.190           11.395
+0.0025      11.795        11.670               11.515           11.818
+0.0050      12.651        12.325               12.007           12.438
+0.0100      14.498        13.576               12.885           13.594
+0.0200      18.593        15.895               14.457           15.900
+
+Band shape (tau = 0.5):
+ cost  learned_half_width_atm  ww_half_width_atm  learned_center_otm  leland_delta_otm  bs_delta_otm
+0.000                  -0.004              0.000               0.187             0.184         0.184
+0.001                   0.010              0.048               0.210             0.191         0.184
+0.002                   0.018              0.065               0.216             0.202         0.184
+0.005                   0.027              0.082               0.224             0.218         0.184
+0.010                   0.040              0.103               0.240             0.245         0.184
+0.020                   0.054              0.130               0.261             0.287         0.184
