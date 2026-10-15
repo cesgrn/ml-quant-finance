@@ -28,10 +28,10 @@ The data is simulated on purpose. When the true model is known, the classical st
 
 **P&L.** The dealer is short one call and holds $h_i$ shares between dates $t_i$ and $t_{i+1}$. Prices are discounted to time 0 ($\tilde S_i = e^{-rt_i} S_i$), so financing the stock position is accounted for:
 
-$$
-\text{PnL} \;=\; p \;+\; \sum_{i=0}^{n-1} h_i\,(\tilde S_{i+1}-\tilde S_i) \;-\; c\sum_{i=0}^{n-1} |h_i-h_{i-1}|\,\tilde S_i \;-\; e^{-rT}(S_T-K)^+,
+```math
+\text{PnL} = p + \sum_{i=0}^{n-1} h_i (\tilde S_{i+1}-\tilde S_i) - c\sum_{i=0}^{n-1} |h_i-h_{i-1}| \tilde S_i - e^{-rT}(S_T-K)^+,
 \qquad h_{-1}=0
-$$
+```
 
 - $p$ is the premium received and $c$ the proportional cost (1%).
 - The position is not unwound at maturity: the option is assumed to be physically settled.
@@ -44,15 +44,15 @@ $$
 
 It penalises losses exponentially, so tail losses dominate. It is computed with `logsumexp` for numerical stability.
 
-Since $\rho(X + p) = \rho(X) - p$, the **indifference price** is $p^\* = \rho(\text{PnL}\,|_{p=0})$: the smallest premium that makes the dealer's risk zero. Minimising risk and minimising the premium a dealer has to charge are the same problem. This is the number the tables report.
+Since $\rho(X + p) = \rho(X) - p$, the **indifference price** is $p^{*} = \rho(\text{PnL} |_{p=0})$: the smallest premium that makes the dealer's risk zero. Minimising risk and minimising the premium a dealer has to charge are the same problem. This is the number the tables report.
 
 ## 2. Strategies compared
 
 | Strategy | Rule | Source |
 |---|---|---|
 | **BS delta** | $h = \Delta_{BS}(S,\tau)$: rebalance to the Black–Scholes delta at every date | Black–Scholes |
-| **Leland delta** | BS delta computed with an inflated volatility, $\sigma_L = \sigma\sqrt{1 + \sqrt{2/\pi}\,\frac{2c}{\sigma\sqrt{\Delta t}}}$ (25% at 1% cost) | Leland (1985) |
-| **Whalley–Wilmott** | Trade only when the position leaves the band $\Delta_{BS} \pm \big(\tfrac{3}{2}\,c\,e^{-r\tau} S\,\Gamma^2/\lambda\big)^{1/3}$, and then only back to its nearest edge | Whalley & Wilmott (1997) |
+| **Leland delta** | BS delta computed with an inflated volatility, $\sigma_L = \sigma\sqrt{1 + \sqrt{2/\pi} \frac{2c}{\sigma\sqrt{\Delta t}}}$ (25% at 1% cost) | Leland (1985) |
+| **Whalley–Wilmott** | Trade only when the position leaves the band $\Delta_{BS} \pm \big(\tfrac{3}{2} c e^{-r\tau} S \Gamma^2/\lambda\big)^{1/3}$, and then only back to its nearest edge | Whalley & Wilmott (1997) |
 | **Feed-forward network** | $h = \Delta_{BS} + \tanh\big(\text{MLP}(\log\tfrac{S}{K},\ \tfrac{\tau}{T},\ h_{\text{prev}})\big)$ | Buehler et al. (2019) |
 | **No-transaction band network** | The MLP outputs a band $[\Delta_{BS} - \text{LeakyReLU}(a),\ \Delta_{BS} + \text{LeakyReLU}(b)]$; then $h = \text{clamp}(h_{\text{prev}},\ \text{band})$ | Imaki et al. (2021) |
 
