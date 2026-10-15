@@ -1,4 +1,5 @@
 # RL Derivative Hedging — ML x Finance
+> **Update (October 2026).** This project was re-evaluated in [part B](../deep_hedging/README.md#6-part-a-revisited), with a corrected P&L (stock financing, no hedge lag, same test paths for every strategy). Under correct accounting, the RL v1 agent's positive mean P&L disappears (−2.76), and the saved RL v2 (CVaR) agent never hedges: its policy mean is negative in every state, so its action is always 0. The conclusions below are kept as originally written.
 
 Training a reinforcement learning agent to dynamically hedge a short call option portfolio. Built as Project 3 of a broader ML x Quant Finance learning series.
 
@@ -44,7 +45,8 @@ rl_hedging/
 │       ├── full_comparison.png     ← 3-way comparison plot
 │       ├── training_curve.png      ← PPO v1 learning curve
 │       └── training_curve_cvar.png ← PPO v2 CVaR learning curve
-│       (*.zip model files excluded from git — regenerate with 03/05)
+│       ├── ppo_hedging_agent.zip   ← trained PPO v1 agent
+│       └── ppo_cvar_agent.zip      ← trained PPO v2 agent (re-evaluated in ../deep_hedging)
 ├── src/
 │   ├── utils/
 │   │   ├── black_scholes.py        ← BS pricing + greeks
@@ -139,7 +141,7 @@ Sanity check (S0=100, μ=5%, σ=20%, T=1 year, 252 steps, 1000 paths):
 
 ### Step 3 — Option Hedging Environment ✅
 
-Implemented `src/01_environment.py` — a Gymnasium environment simulating a short call option portfolio.
+Implemented `src/option_env.py` — a Gymnasium environment simulating a short call option portfolio.
 
 **State space** (4 features observed by the agent at each step):
 
@@ -302,7 +304,7 @@ python src/04_evaluate.py       # 3-way comparison
 |---|---|---|
 | 1 — Stock Return Predictor | Can we predict prices? | Markets are too efficient for technical features |
 | 2 — Earnings Sentiment | Does NLP add edge? | Signal exists but vanishes at scale |
-| **3 — RL Hedging** | **How to manage risk without predicting?** | **RL beats delta hedge on Sharpe but standard PPO fails on CVaR — custom algorithms needed** |
+| **3 — RL Hedging** | **How to manage risk without predicting?** | **PPO's apparent edge came from the accounting; trained directly on the risk of the full P&L, a band network beats every classical hedge ([part B](../deep_hedging/README.md))** |
 
 ---
 
